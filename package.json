@@ -1,6 +1,6 @@
 {
   "name": "@plugandwork/core-ui",
-  "version": "0.1.0-beta",
+  "version": "0.1.1-beta",
   "description": "Plugandwork core-ui module",
   "author": "pierrecabriere",
   "license": "MIT",
@@ -54,11 +54,13 @@
     "dist"
   ],
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
     "bson": "^4.4.0",
     "bson-objectid": "^2.0.1",
     "faye": "^1.4.0",
     "lodash": "^4.17.21",
+    "redux-devtools-extension": "^2.13.9",
     "rxjs-auth": "^1.1.0"
   }
 }
