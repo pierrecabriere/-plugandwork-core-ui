@@ -1,6 +1,6 @@
-import React from 'react'
-import styles from './styles.module.css'
+import * as lib from './lib'
+import * as models from './models'
+import * as utils from './utils'
 
-export const ExampleComponent = ({ text }) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export { lib, models, utils }
+export default { lib, models, utils }

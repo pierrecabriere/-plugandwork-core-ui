@@ -1,6 +1,6 @@
 {
   "name": "@plugandwork/core-ui",
-  "version": "1.0.0",
+  "version": "0.1.0-beta",
   "description": "Plugandwork core-ui module",
   "author": "pierrecabriere",
   "license": "MIT",
@@ -9,11 +9,11 @@
   "module": "dist/index.modern.js",
   "source": "src/index.js",
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs --css-modules false --external react=React,react-dom=ReactDOM",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs --css-modules false --external react=React,react-dom=ReactDOM",
+    "build": "microbundle-crl",
+    "start": "microbundle-crl watch",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
@@ -24,10 +24,11 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   },
   "devDependencies": {
-    "microbundle-crl": "^0.13.10",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
@@ -41,13 +42,23 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^2.2.0",
+    "microbundle-crl": "^0.13.10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-is": "^17.0.2",
     "react-scripts": "^3.4.1"
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bson": "^4.4.0",
+    "bson-objectid": "^2.0.1",
+    "faye": "^1.4.0",
+    "lodash": "^4.17.21",
+    "rxjs-auth": "^1.1.0"
+  }
 }
