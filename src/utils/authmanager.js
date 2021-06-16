@@ -22,7 +22,7 @@ export const authmanager = RxjsAuth.create('plugandwork-frontend', {
 
 export const logout = async () => {
   axios
-    .get('/api/logout')
+    .post('/api/logout')
     .then(() => authmanager.logout())
     .catch((error) => {
       console.error('Error during logout request', error)

@@ -47,6 +47,7 @@ class PlugandworkModel {
 
     return new Proxy(this, {
       get: (target, key) => {
+        target = this
         const _getter = (slug) => {
           if (
             typeof slug === 'string' &&
