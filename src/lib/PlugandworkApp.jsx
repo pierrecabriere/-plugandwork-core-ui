@@ -2,7 +2,7 @@ import React from 'react'
 import SettingsField from './SettingsField'
 
 class PlugandworkApp {
-  static getSettingsFields = () => {
+  static getSettingsFields() {
     const { schema } = this.settings
 
     if (!schema || typeof schema !== 'object') {
