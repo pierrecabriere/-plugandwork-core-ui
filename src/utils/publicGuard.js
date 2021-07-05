@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from './axios'
 import * as models from '../models'
+import { authmanager } from './authmanager'
 
 const publicGuard = (Component) =>
   class extends React.Component {
@@ -21,16 +22,25 @@ const publicGuard = (Component) =>
 
       try {
         const { contactToken } = this.props.match.params
-        const { data } = await axios.post(
+        const { data: contact } = await axios.post(
           `/api/pin_token?token=${contactToken}`
         )
 
-        newState.contact = data.id
-        axios.defaults.transformRequest.push((data, headers) => {
-          headers.common.Authorization = `Bearer ${data.access_token}`
-          return data
-        })
-      } catch (e) {}
+        newState.contact = contact.id
+        axios.interceptors.request.use(
+          (config) => {
+            const token = authmanager.getToken()
+            if (token) {
+              config.headers.Authorization = `Bearer ${contact.access_token}`
+            }
+
+            return config
+          },
+          (error) => Promise.reject(error)
+        )
+      } catch (e) {
+        console.error(e)
+      }
 
       this.setState(newState)
     }

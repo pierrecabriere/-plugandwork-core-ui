@@ -19,22 +19,27 @@ const privateGuard = (Component) =>
       models.Doc.apiType = 'docs'
 
       try {
-        const token = getTokenFromCookie()
+        const token = getTokenFromCookie() || localStorage.getItem('paw_token')
         if (token) {
           authmanager.setToken(token)
         }
 
-        axios.defaults.transformRequest.push((data, headers) => {
-          const token = authmanager.getToken()
-          if (token) {
-            headers.common.Authorization = `Bearer ${token}`
-          }
+        axios.interceptors.request.use(
+          (config) => {
+            const token = authmanager.getToken()
+            if (token) {
+              config.headers.Authorization = `Bearer ${token}`
+            }
 
-          return data
-        })
+            return config
+          },
+          (error) => Promise.reject(error)
+        )
 
         await authmanager.sync()
-      } catch (e) {}
+      } catch (e) {
+        console.error(e)
+      }
 
       if (authmanager.user) {
         this.setState({ ready: true })

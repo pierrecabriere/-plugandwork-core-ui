@@ -4,10 +4,6 @@ import privateGuard from './privateGuard'
 import publicGuard from './publicGuard'
 
 class ReactEntry extends React.Component {
-  state = {
-    view: 'private'
-  }
-
   componentDidMount() {}
 
   render() {
