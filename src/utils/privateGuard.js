@@ -17,6 +17,7 @@ const privateGuard = (Component) =>
     async componentDidMount() {
       models.App.apiType = 'apps'
       models.Doc.apiType = 'docs'
+      models.Space.apiType = 'spaces'
 
       try {
         const token = getTokenFromCookie() || localStorage.getItem('paw_token')

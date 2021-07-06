@@ -17,6 +17,7 @@ const publicGuard = (Component) =>
     async componentDidMount() {
       models.App.apiType = 'contacts/apps'
       models.Doc.apiType = 'contacts/docs'
+      models.Space.apiType = 'contacts/spaces'
 
       const newState = { ready: true }
 
