@@ -45,8 +45,14 @@ const privateGuard = (Component) =>
       if (authmanager.user) {
         this.setState({ ready: true })
       } else {
-        const host = process.env.REACT_APP_PAW_HOST || ''
-        window.location.href = `${host}/users/sign_in?identity_provider=paw-front&callback_url=${window.location.origin}`
+        if (process.env.NODE_ENV !== 'production') {
+          const token = prompt('Entrez votre token de connexion')
+          localStorage.setItem('paw_token', token)
+          window.location.reload()
+        } else {
+          const host = process.env.REACT_APP_PAW_HOST || ''
+          window.location.href = `${host}/users/sign_in?identity_provider=paw-front&callback_url=${window.location.origin}`
+        }
       }
     }
 
