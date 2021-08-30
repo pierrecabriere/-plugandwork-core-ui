@@ -136,15 +136,17 @@ class PlugandworkModel {
 
   static async fetch(
     query,
-    { count = true, refresh = false, forceD2 = false }
+    cfg = { count: true, refresh: false, forceD2: false }
   ) {
+    const { count, refresh, forceD2 } = cfg
+
     const cacheKey = JSON.stringify({ query, count })
     if (this.cache[cacheKey] && !refresh) {
       return this.cache[cacheKey]
     }
 
     try {
-      let opt = { method: 'GET' }
+      const opt = { method: 'GET' }
 
       if (typeof query === 'string') {
         opt.url = `/api/d2/${this.apiType}/${query}`
