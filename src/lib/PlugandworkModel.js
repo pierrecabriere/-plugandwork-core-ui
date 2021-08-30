@@ -123,7 +123,7 @@ class PlugandworkModel {
     if (!item && fetch !== false) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await this.fetch(id, false)
+          const res = await this.fetch(id, { count: false })
           resolve(this.get(res.id, false))
         } catch (e) {
           reject(e)
@@ -134,7 +134,10 @@ class PlugandworkModel {
     return item
   }
 
-  static async fetch(query, count = true, refresh = false) {
+  static async fetch(
+    query,
+    { count = true, refresh = false, forceD2 = false }
+  ) {
     const cacheKey = JSON.stringify({ query, count })
     if (this.cache[cacheKey] && !refresh) {
       return this.cache[cacheKey]
@@ -146,7 +149,7 @@ class PlugandworkModel {
       if (typeof query === 'string') {
         opt.url = `/api/d2/${this.apiType}/${query}`
       } else {
-        if (this.d3Compatible && (query.search || query.title)) {
+        if (!forceD2 && this.d3Compatible && (query.search || query.title)) {
           opt.method = 'POST'
           opt.url = `/api/d3/search/${this.apiType}`
           opt.data = query

@@ -123,7 +123,7 @@ export const connectModel = (Model, name, params) => (Component) => {
         if (_query && typeof _query === 'object') {
           const { page, pageSize: per_page, sort } = this.state
           const query = Object.assign({}, _query, { page, per_page, sort })
-          const res = await Model.fetch(query, true, refresh)
+          const res = await Model.fetch(query, { refresh })
           count = res.count
           ids = res.data?.map((item) => item.id) || []
         } else if (typeof _query === 'string') {
