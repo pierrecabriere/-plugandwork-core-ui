@@ -1,6 +1,6 @@
 import FormData from 'form-data'
 import qs from 'qs'
-import axios from 'axios'
+import axios from '../utils/axios'
 import { getClient } from '../utils/faye'
 import PlugandworkModel from '../lib/PlugandworkModel'
 

@@ -1,5 +1,5 @@
 import PlugandworkModel from '../lib/PlugandworkModel'
-import axios from 'axios'
+import axios from '../utils/axios'
 
 class Space extends PlugandworkModel {
   static apiType = 'spaces'
