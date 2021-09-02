@@ -10,7 +10,9 @@ const publicGuard = (Component) =>
 
       this.state = {
         contact: null,
-        ready: false
+        ready: false,
+        username: '',
+        password: ''
       }
     }
 
@@ -19,36 +21,94 @@ const publicGuard = (Component) =>
       models.Doc.apiType = 'contacts/docs'
       models.Space.apiType = 'contacts/spaces'
 
-      const newState = { ready: true }
-
       try {
         const { contactToken } = this.props.match.params
-        const { data: contact } = await axios.post(
-          `/api/pin_token?token=${contactToken}`
-        )
+        if (contactToken) {
+          const { data: contact } = await axios.post(
+            `/api/pin_token?token=${contactToken}`
+          )
+          const accessToken = contact.access_token
 
-        newState.contact = contact.id
+          axios.interceptors.request.use(
+            (config) => {
+              const token = authmanager.getToken()
+              if (token) {
+                config.headers.Authorization = `Bearer ${accessToken}`
+              }
+
+              return config
+            },
+            (error) => Promise.reject(error)
+          )
+
+          this.setState({ contact: contact.id, ready: true })
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    handleSubmit = async (e) => {
+      e.preventDefault()
+
+      const { username, password } = this.state
+
+      try {
+        const { data: contact } = await axios.post(
+          `/api/pin_token?username=${username}&password=${password}`
+        )
+        const accessToken = contact.access_token
+
         axios.interceptors.request.use(
           (config) => {
             const token = authmanager.getToken()
             if (token) {
-              config.headers.Authorization = `Bearer ${contact.access_token}`
+              config.headers.Authorization = `Bearer ${accessToken}`
             }
 
             return config
           },
           (error) => Promise.reject(error)
         )
-      } catch (e) {
-        console.error(e)
-      }
 
-      this.setState(newState)
+        this.setState({ contact: contact.id, ready: true })
+      } catch (e) {
+        alert(
+          'Une erreur est survenue, vérifiez que les identifiants sont corrects'
+        )
+      }
     }
 
     render() {
       if (!this.state.ready) {
-        return null
+        return (
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <div>
+                <label>Email</label>
+                <input
+                  value={this.state.username}
+                  onChange={({ currentTarget }) =>
+                    this.setState({ username: currentTarget.value })
+                  }
+                  type='email'
+                />
+              </div>
+              <div>
+                <label>Mot de passe</label>
+                <input
+                  value={this.state.password}
+                  onChange={({ currentTarget }) =>
+                    this.setState({ password: currentTarget.value })
+                  }
+                  type='password'
+                />
+              </div>
+
+              <input type='submit' />
+            </form>
+          </div>
+        )
       }
 
       return React.createElement(Component, {

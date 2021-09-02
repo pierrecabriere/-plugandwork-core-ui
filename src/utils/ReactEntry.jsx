@@ -15,7 +15,7 @@ class ReactEntry extends React.Component {
     return (
       <BrowserRouter basename={this.props.basename}>
         <Switch>
-          <Route component={_public} path='/public/:contactToken' />
+          <Route component={_public} path='/public/:contactToken?' />
           <Route component={_private} />
         </Switch>
       </BrowserRouter>
